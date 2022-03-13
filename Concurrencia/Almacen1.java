@@ -11,7 +11,6 @@ class Almacen1 implements Almacen {
 /*-----------------------------------------------------------------------------------------------------------------------------*/
    // Declaration of thye necesary Semaphores an variables
    private Producto almacenado = null;
-   static Semaphore available = new Semaphore(1);
    static Semaphore Space = new Semaphore(1);
    static Semaphore Product = new Semaphore(0);
    public Almacen1() {
@@ -25,7 +24,7 @@ class Almacen1 implements Almacen {
       // Operation of the semphores to syncronize them
       
       Space.await();
-      available.await();
+      
       
 
       // Critical section
@@ -49,7 +48,7 @@ class Almacen1 implements Almacen {
       
       //operation to block almacenar while extraer is operating
       Product.await();
-      available.await();
+
 
       // Critical section
       result = almacenado;
@@ -57,7 +56,6 @@ class Almacen1 implements Almacen {
 
       //Operations to let  almacenar work
       
-      available.signal();
       Space.signal();
   
       return result;
