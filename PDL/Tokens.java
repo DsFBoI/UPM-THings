@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -13,14 +12,22 @@ public class Tokens {
     static String palabra = "";
     static int resultado = 0;
     static int contador = 0;
+    static int contadorcad= 0;
+    static String rutaL = "C:\\Users\\danel\\Downloads\\clase\\Pdl\\Prueba\\PIdG114.txt";
+    static String rutaW = "C:\\Users\\danel\\Downloads\\clase\\Pdl\\Prueba\\prueba.txt";
     static boolean checkpalabra = false;
+    static boolean error = false;
+
+
     /*
      * hacemos listas para las palabras reservadas(palreserv) 
      * para las palabras que son ids(listaids) 
      * para las palrabras que ya han sido usadas(listacheck)
      */
     static List<String> listacheck = new ArrayList<>();
-    static List<String> listaid = new ArrayList<>();
+    
+    static Map<String, Integer> mapaid = new HashMap<>();
+
     static List<String> palreserv = new ArrayList<String>(){
         { /* Palabras resrvadas */
             add("if");
@@ -32,7 +39,6 @@ public class Tokens {
             add("String");
             add("string");
             add("while");
-            add("else");
             add("false");
             add("true");
             add("print");
@@ -69,13 +75,13 @@ public class Tokens {
             }
             if (car == '(') {
                 /* Automata 0->116 */
-                escToken("apar", "-");
+                escToken("apar", "-");   
                 return 0;
 
             }
             if (car == ')') {
                 /* Automata 0->117 */
-                escToken("cpar", "-");
+                escToken("cpar", "-");                
                 return 0;
 
             }
@@ -90,12 +96,6 @@ public class Tokens {
                 escToken("ckey", "-");
                 return 0;
      
-            }
-            if (car == ':') {  
-                /* Automata 0->113 */    
-                escToken("dp", "-");
-                return 0; 
-
             }
             if (car == ';') {
                 /* Automata 0->112 */
@@ -165,10 +165,20 @@ public class Tokens {
 
             } 
         case 3:
-            if(car != '\''){
+            if(car != '\''&& car != '\n'){
                 /* Automata 3->3 */
+                contadorcad++;
+                if(contadorcad>2313123){
+                    errores(5); 
+                }
+                
             	return 3; 
 
+            }
+            else if(car == '\n' ){
+                
+                errores(3);
+                return 0;
             }
             else{
                 /* Automata 3->103 */
@@ -180,18 +190,25 @@ public class Tokens {
         	if(Character.toString(car).matches("[0-9]")){ 
                 /* Automata 4->4 */
         		resultado = resultado*10 + car;
+                if(resultado>32767){
+                    errores(6);
+                }
         		return 4;
 
 			}
-        	if (car == ' ' ||car == '\n' ||car == '\t' ||car == '\r' ||car == '\b'|| car == ';' ){
+        	else if (car == ' ' ||car == '\n' ||car == '\t' ||car == '\r' ||car == '\b'|| car == ';' ){
                 /* Automata 4->104 */
                 escToken("cte_entera", "valor");
-                
+                estado(0,car);
         	    return 0; 
 
             }
+            else if(Character.toString(car).matches("[a-zA-Z]")){
+                errores(4);
+                return -1;
+            }
         case 5:
-        	if(Character.toString(car).matches("[a-zA-Z]")){
+        	if(Character.toString(car).matches("[a-zA-Z]")||car == '_'){
                 /* Automata 5->5 */
                 palabra += car;
                 return 5;
@@ -206,9 +223,9 @@ public class Tokens {
         	
         	else{
                 /* Automata 5->105 */
-                String hola = "";
-                hola += contador;
-                escToken("id", hola); 
+                
+                escToken("id", contador+""); 
+                estado(0,car);
                 return 0;
             }
         case 6:
@@ -231,20 +248,26 @@ public class Tokens {
                 return 0;
             	
             }
+            else{
+                error = true;
+                errores(7);
+                
+            }
         
         case 8:
-            if(Character.toString(car).matches("[0-9]") || Character.toString(car).matches("[a-zA-Z]") ){
+            if(Character.toString(car).matches("[0-9]") || Character.toString(car).matches("[a-zA-Z]")||car == '_' ){
                 /* Automata 8->8 */
                 palabra += car;
                 return 8;
 
             }
-            else if(car == ' ' ||car == '\n' ||car == '\t' ||car == '\r' ||car == '\b' ){
+            else{
                 /* Automata 8->102 */
                 String hola = "";
                 hola += contador;
                 
                 escToken("id", hola ); 
+                estado(0, car);
                 return 0; 
                
 
@@ -253,7 +276,45 @@ public class Tokens {
     }    
 	return 0;  
    }
-   /*funcion para comprobar si es una palbra reservada */
+   
+   
+    private static void errores(int a) {
+        error = true;
+        try(FileWriter fw = new FileWriter(new File(rutaW), true);){
+            PrintWriter writer = new PrintWriter(rutaW);
+            writer.print("");
+            writer.close();
+            PrintWriter writer2 = new PrintWriter(fw);
+         
+            
+           
+            switch(a){
+                case 3:
+                    writer2.write("Error: cierre con ' para generar el token cadena");    
+                    return;
+                case 4:   
+                    writer2.write("Error: Identificadores no pueden empezar por numeros");    
+                    return; 
+                case 5:
+                    writer2.write("Error: cadena supera el limite de caracteres");
+                    return;
+                case 6:
+                    writer2.write("Error: int fuera de rango");
+                    return;
+                case 7:
+                    writer2.write("Error falta de = para completar el token %=");    
+                    return;
+            
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+    }
+
+    /*funcion para comprobar si es una palbra reservada */
     public static boolean check(String pal){
         boolean res = false;
         if(palreserv.contains(pal)) {
@@ -268,8 +329,7 @@ public class Tokens {
     	PrintWriter writer = null;
         checkpalabra = check(palabra);
 		try {
-			String ruta = "C:\\Users\\danel\\Downloads\\clase\\Pdl\\Prueba\\prueba.txt";
-            File file = new File(ruta);
+			File file = new File(rutaW);
             // Si el archivo no existe es creado
             if (!file.exists()) {
                 file.createNewFile();
@@ -278,29 +338,32 @@ public class Tokens {
 			writer = new PrintWriter(fw);
             if (checkpalabra){ 
                 /*si es una palabra reservada */       
-                if(!listacheck.contains(palabra)){
+               
                     /*si no esta en la lista de palabras ya escritas se escribe y la almecena en esta lista */
                 	writer.write("<" + palabra + ",->\n");
                 	listacheck.add(palabra);
                     checkpalabra = false;
                     
-                }
+                
                 
             }
             else{   
                 /*si no es una palabra reservada  */     
                 if(cod.equals("id")){
-                    /*si tiene codigo id  */
-                    if(!listaid.contains(palabra)){
-                        /*si no esta en la lista de palabras ya escritas se escribe y la almecena en esta lista  */
+                    /*si no esta en la lista de palabras ya escritas se escribe y la almecena en esta lista  */
+                    if(!mapaid.containsKey(palabra)){
                         contador++;
-                        writer.write("<" + cod + " "+ palabra + "," + atributo + ">\n");
-                        listaid.add(palabra);
+                        writer.write("<" + cod  + "," + contador + ">\n"); 
+                        mapaid.put(palabra, contador);
                     }
+                    else{
+                        writer.write("<" + cod  + "," + mapaid.get(palabra) + ">\n"); 
+                    }
+                    
 
                 }
-                else if(!listacheck.contains(cod)){
-                    /*si no tiene codigo id */
+                else{
+                
                     writer.write("<" + cod + "," + atributo + ">\n");
                     listacheck.add(cod);
                 }
@@ -314,13 +377,14 @@ public class Tokens {
         
         catch(Exception e){
             e.printStackTrace();
+            System.exit(1);
         }
 		if(writer!= null) {
 			writer.close();
 		}
         
     }
-    public static void main(String[] args) {
+    public void main(String[] args) throws IOException {
     	int EstadoAct = 0;
     	/*
     	Scanner reader = new Scanner(System.in);
@@ -329,27 +393,28 @@ public class Tokens {
         path = reader.nextLine(); 
         */
     	System.out.println("ejutando");
-		try (FileReader fileReader = new FileReader("C:\\Users\\danel\\Downloads\\clase\\Pdl\\Prueba\\PIdG114.txt")) {
+		try (FileReader fileReader = new FileReader(rutaL)) {
 
 			int caracterleido = fileReader.read();
-			while(caracterleido != -1) {
+			while(caracterleido != -1 && !error) {
                 /* Lector de carcateres */
 				char car = (char) caracterleido;
+                 
                 EstadoAct = estado(EstadoAct, car);
-                if(EstadoAct == 0 && car!='\''){
-                    /*en el cas de que el estado sea 0 ya que vuelve de un estado final se hace de nuevo 
-                    para los casos de tokens pegados y en especia las cadenas que daba error*/
-                    EstadoAct = estado(EstadoAct, car);
-                }
+
                 /*leemos el siguiente caracter */
                 caracterleido = fileReader.read();  
 			}
+
+            
 			
 		}
 		catch (IOException e) {
-			System.out.println("Error al leer el archivo");
-	       System.exit(1);
+			e.printStackTrace();
+	        System.exit(1);
 	    }
+        
+        
 		
 	}
 }
