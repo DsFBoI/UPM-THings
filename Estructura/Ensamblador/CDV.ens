@@ -1,0 +1,829 @@
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; MACROS
+PUSH: MACRO(ra)
+    subu r30, r30, 4
+    st ra, r30, 0
+ENDMACRO
+
+POP: MACRO(ra)
+    ld ra, r30, 0
+    addu r30, r30, 4
+ENDMACRO
+
+LEA: MACRO(ra,direccion)
+    or ra, r0, low(direccion)
+    or.u ra, ra, high(direccion)
+ENDMACRO
+
+LOAD:MACRO(ra,eti)
+    LEA (ra, eti)
+    ld ra, ra, r0
+ENDMACRO
+
+;MACROS AUXILIARES
+CLEAR: MACRO(ra,rb,rc)
+	or ra, rb ,0x20
+	clr rc, rc, ra
+	subu rb, rb, 1
+ENDMACRO
+
+SET: MACRO(ra,rb,rc)
+	or ra, rb ,0x20
+	set rc, rc, ra
+	subu rb, rb, 1
+ENDMACRO
+		
+
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; DATOS
+org 0x9000
+CASO1: data "Prueba\0"
+CASO2: data "123456789 123456789 12\0A"
+org 0xA000
+CASO3: data "*2345*78*0\0"
+CASO4: data 0x40302010, 0x80706050, 0xA090
+
+C1: data 0x2A
+REF1: data 0xA000
+FROM1: data 0x4
+TO1: data 0xA
+
+C2: data 0x31
+REF2: data 0xA000
+FROM2: data 0x4
+TO2: data 0xA
+
+C3: data 0xA0
+REF3: data 0xA00C
+FROM3: data 0x4
+TO3: data 0xA
+org 0xB000
+cadena1: data "0123456789\0"
+cadena2: data "123456789\0"
+cadena3: data "12*3456789012*3456789012*3456789012*3456789012*3456789012*34567890\0"
+cadena4: data "12*3456789012*3456789012*345678901*3456789012*3456789012*34567890\0"
+
+org 0xC000
+CadM1:data "0123789789\0"
+max1: data 7
+jj1: data 0x5AA5
+
+CadM2: data "tres tristes tigres comen trigo en un trigal, el primer tigre que...\0"
+max2: data 26
+jj2: data 0x5AA5
+
+max3: data 56
+jj3: data 0x5AA5
+
+max4: data 20
+jj4: data 0x5AA5
+
+CadM3: data "aaaaabbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+max5: data 15
+jj5: data 0x5AA5
+
+org 0xF000
+CMPR1: data  0x07010014, 0x30000000, 0x34333231, 0x38373635,  0x37383939, 0x33343536, 0x00303132
+
+CMPR2: data 0x0B010044, 0x10102400, 0x74004000, 0x20736572, 0x73697274, 0x04000274, 0x00016769, 0x6D6F6304, 0x00046E65, 0x206F6704, 0x75206E65, 0x61060018, 0x65202C6C, 0x7270206C, 0x72656D69, 0x2006000C, 0x2E657571, 0x00002E2E
+
+
+
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; CASOS
+org 0x9300
+
+; LongCad
+
+ppal:  
+        LEA(r30, 0x14FFC)
+        or r31, r30, r30
+        or r29, r0, 100
+        LEA(r10, CASO1)
+        PUSH (r10)
+bsr LongCad
+        addu r30, r30, 4
+stop
+
+
+    lc2:LEA(r30, 0x14FFC)
+        or r31, r30, r30
+or r29, r0, 100
+        LEA(r10, CASO2)
+        PUSH (r10)
+bsr LongCad
+        addu r30, r30, 4
+stop
+
+       
+; BuscaCar
+
+    bc1:LEA(r30, 0x14FF0)
+        or r29, r0, 100
+        LOAD(r10, C1)
+        LOAD(r11, REF1)
+        LOAD(r12, FROM1)
+        LOAD(r13, TO1)
+        PUSH (r13)
+        PUSH (r12)
+        PUSH (r11)
+        PUSH (r10)
+bsr BuscaCar
+        addu r30, r30, 16
+stop
+
+
+    bc2:LEA(r30, 0x14FF0)
+or r29, r0, 100
+        LOAD(r10, C2)
+        LOAD(r11, REF2)
+        LOAD(r12, FROM2)
+        LOAD(r13, TO2)
+        PUSH (r13)
+        PUSH (r12)
+        PUSH (r11)
+PUSH (r10)
+bsr BuscaCar
+        addu r30, r30, 16
+stop
+
+
+    bc3:LEA(r30, 0x14FF0)
+		or r29, r0, 100
+        LOAD(r10, C3)
+        LOAD(r11, REF3)
+        LOAD(r12, FROM3)
+        LOAD(r13, TO3)
+        PUSH (r13)
+        PUSH (r12)
+        PUSH (r11)
+        PUSH (r10)
+		bsr BuscaCar
+        addu r30, r30, 16
+		stop
+;CoincidenCad
+
+	cc1:LEA(r30, 0x14FF8)
+		LEA(r10, cadena1)
+		LEA(r11, cadena2)
+		PUSH(r11)
+		PUSH(r10)
+		bsr CoincidenCad
+		addu r30,r30,8
+		stop
+	cc2:LEA(r30, 0x14FF8)
+		LEA(r10, cadena3)
+		LEA(r11, cadena4)
+		PUSH(r11)
+		PUSH(r10)
+		bsr CoincidenCad
+		addu r30,r30,8
+		stop
+		
+;BuscaMax
+    bm1:LEA(r30, 0x14FF4)
+		or r29, r0, 100
+        LEA(r10,CadM1)
+        addu r11,r0,7
+        LEA(r12,jj1)
+        PUSH(r12)
+        PUSH(r11)
+        PUSH(r10)
+        bsr BuscaMax
+        addu r30, r30,12
+        stop
+		
+		
+	bm2:LEA(r30, 0x14FF4)
+		or r29, r0, 100
+        LEA(r10,CadM2)
+        addu r11,r0,26
+        LEA(r12,jj2)
+        PUSH(r12)
+        PUSH(r11)
+        PUSH(r10)
+        bsr BuscaMax
+        addu r30, r30,12
+        stop
+		
+	bm3:LEA(r30, 0x14FF4)
+		or r29, r0, 100
+        LEA(r10,CadM2)
+        addu r11,r0,56
+        LEA(r12,jj3)
+        PUSH(r12)
+        PUSH(r11)
+        PUSH(r10)
+        bsr BuscaMax
+        addu r30, r30,12
+        stop
+	bm4:LEA(r30, 0x14FF4)
+		or r29, r0, 100
+        LEA(r10,CadM2)
+        addu r11,r0,20
+        LEA(r12,jj4)
+        PUSH(r12)
+        PUSH(r11)
+        PUSH(r10)
+        bsr BuscaMax
+        addu r30, r30,12
+        stop
+	
+	bm5:LEA(r30, 0x14FF4)
+		or r29, r0, 100
+        LEA(r10,CadM3)
+        addu r11,r0,15
+        LEA(r12,jj5)
+        PUSH(r12)
+        PUSH(r11)
+        PUSH(r10)
+        bsr BuscaMax
+        addu r30, r30,12
+        stop
+;COMPRIME
+	cp1:LEA(r30, 0x14FF8)
+		LEA(r10, cadena1)
+		LEA(r11, 0x12000)
+		PUSH(r11)
+		PUSH(r10)
+		bsr Comprime
+		addu r30, r30,8
+		stop
+
+	cp2:LEA(r30, 0x14FF8)
+		LEA(r10, CadM2)
+		LEA(r11, 0x12000)
+		PUSH(r11)
+		PUSH(r10)
+		bsr Comprime
+		addu r30, r30,8
+		stop
+;DESCOMPRIME
+	dc1:LEA(r30, 0x14FF8)
+		LEA(r10,CMPR1)
+		LEA(r11, 0x12000)
+		PUSH(r11)
+		PUSH(r10)
+		bsr Descomprime
+		addu r30, r30,8
+		stop
+
+	dc2:LEA(r30, 0x14FF8)
+		LEA(r10,CMPR2)
+		LEA(r11, 0x12000)
+		PUSH(r11)
+		PUSH(r10)
+		bsr Descomprime
+		addu r30, r30,8
+		stop
+;VERIFICA
+	
+	v1: LEA(r30, 0x14FF4)
+		LEA(r10,CadM1)
+		LEA(r11, 0x12200)
+        LEA(r12, 0x12204)
+		PUSH (r12)
+        PUSH (r11)
+        PUSH (r10)
+        bsr Verifica;
+        addu r30, r30, 12
+
+        stop
+	
+	v2:	LEA(r30, 0x14FF4)
+		LEA(r10,CadM2)
+		LEA(r11, 0x12200)
+        LEA(r12, 0x12204)
+		PUSH (r12)
+        PUSH (r11)
+        PUSH (r10)
+        bsr Verifica;
+        addu r30, r30, 12
+        stop
+	
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------;
+;PROGRAMA 1
+LongCad:;cargamos los datos e inicializamos variables
+			ld r20, r30, 0 		; r20 <- str
+            or r21, r0, r0   	; r21 <- i
+            st r21, r30, 0
+BUCLCAD:	ld.bu r23, r20, r21 ; r23 <- str[i]
+            cmp r22, r23, r0
+            bb1 eq, r22, FINLCAD
+            addu r21, r21, 1	; avanza el puntero
+            br BUCLCAD
+
+FINLCAD: 	or r29, r21, r0
+            jmp(r1)
+
+
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------;
+;PROGRAMA 2
+BuscaCar:   ;cargamos los datos e inicializamos variables
+			ld r24, r30, 0 		; r24 <- C
+            ld r20, r30, 4 		; r20 <- ref
+            ld r21, r30, 8 		; r21 <- from
+            ld r23, r30, 12 	; r23 <- to
+    BUCBCAR:ld.bu r25, r20, r21 ; r25 la letra de ref
+            cmp r22, r24, r25 	; si se cumpe que es la misma salta al final
+            bb1 eq, r22, FINBCAR
+            cmp r22, r21, r23 	; si el primer caracter y el ultimo son el mismo dalta al final
+            bb1 eq, r22, FINBCAR
+            addu r21, r21, 1 	; r21 <- from + 1
+            br BUCBCAR
+			
+    FINBCAR:or r29, r21, r0   	; r29 <- r21
+            jmp(r1)
+
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------;
+;PROGRAMA 3
+
+CoincidenCad: 
+			ld r15, r30, 0		; r15 <- cad1
+			ld r16, r30, 4		; r16 <- cad2
+			or r29, r0 ,r0		;	contador
+			
+bucConcad:	ld.bu r21,r15,r29	; cargamos los primeros caracteres de las dos cadenas
+			ld.bu r22,r16,r29	;
+			cmp r7,r21,r22		; si nos son iguales vamos a fin
+			bb1 ne, r7, finCCad
+			cmp r7,r21,0		; si es el final de una de las cadena van a final
+			bb1 eq,r7,finCCad
+			cmp r7,r22,0
+			bb1 eq,r7,finCCad
+			addu r29,r29,1		; avanza puntero
+			br bucConcad
+			
+finCCad:	jmp(r1)
+
+
+
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------;
+;PROGRAMA 4
+
+BuscaMax:     	PUSH(r1)
+                PUSH(r31)
+                or r31,r30,r30
+                subu r30,r30,8;
+                ld r17,r31,8; r17<-ref
+                ld r18,r31,12;r18<-max
+                ld r19,r31,16;r19<-jj
+                subu r4,r0,1
+                st r4,r19,0
+                ld r5,r0,r0; L
+                ld r26,r0,r0; P
+				
+bucBM:      	cmp r7,r18,r26; si r18 es lo mismo que el contador de ref
+                bb1 eq,r7,finmax
+                ld.bu r27,r17,r18
+                PUSH(r5);reservar variables contadores
+                PUSH(r26);para que no se modifiquen
+                PUSH(r18);to
+                PUSH(r26);from
+                PUSH(r17);ref
+                PUSH(r27);C
+                bsr BuscaCar
+				
+                addu r30,r30,16
+				POP(r26);extraes
+                POP(r5)
+                ld.bu r27,r17,r18
+                cmp r7,r29,r18
+                bb1 eq,r7,finmax
+				addu r26,r29,r0; r26 <- r29
+                addu r28,r17,r26
+				addu r24,r17,r18
+                PUSH(r28);puntero cadena 1
+                PUSH(r24);puntero cadena 2
+                bsr CoincidenCad
+				
+                addu r30, r30, 8
+				cmp r7,r29,255; o si es mayor que 255
+                bb1 gt,r7,fin_255
+                cmp r7, r29,r5; si el contador es mayor saltamos a cambiar los valores
+                bb1 gt, r7,Cambio
+Vuelta:     	addu r26,r26,1; avanza la ref de la cadena.
+                br bucBM
+				
+fin_255:		or r5,r0,255
+				st r26,r19,r19			
+				br finmax
+				
+Cambio:     	st r26,r19,r0
+				addu r5,r29,r0;r5<-r29+0
+                br Vuelta; volvemos al codigo
+				
+finmax:     	addu r29,r5,0
+                or r30, r31,0
+                POP(r31)
+                POP(r1)
+                jmp(r1)
+
+
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+;PROGRAMA 5
+
+Comprime:
+			PUSH(r1)
+			PUSH(r31)
+			or r31,r30,r30
+
+			ld r20, r31, 8 ; r20<- texto
+			
+;Parte 1
+			
+			PUSH(r20)
+			PUSH(r20)
+			bsr LongCad
+			addu r30 ,r30,4
+			POP(r20)
+			
+
+;Parte2
+	
+cpeor:		divu r8,r29,4 ; hacemos un modulo de 4 y aprovechando que ensmablador trunca al dividir
+			mulu r8,r8,4  ; comparamos, y si es menor que r29 bajamos a cambio que le añade 4 a r8
+			cmp r7, r8,r29
+			bb1 lt ,r7, ccambio
+ccambio2:	subu r30, r30,r8
+			subu r30 ,r30,4 
+			or r24,r30, 0
+
+;Parte3
+cpaso3:
+			subu r30 ,r30,8 ;almacena espacio en pila para el mapa de bits
+			or r3,r29,r0; tam texto sin comprimir(actualmente es el mismo que el inicial)
+			or r4,r0,0; byte de trabajo
+			or r23, r0, 0 ;puntero pila aux
+			or r8, r0 ,0; contador del texto comprimido
+			or r19 ,r0 ,0; jj para buscamax
+			
+			
+;Parte 4	   
+cpaso4:		cmp r7, r8, 8
+			bb1 eq, r7,cpaso5
+			
+			ld.bu r14, r20,r8
+			subu r25, r31, 1
+			st.b r14, r25,r23
+			addu r8, r8,1
+			subu r23,r23,1
+			br  cpaso4
+;Parte 5			
+cpaso5:		
+			or r27,r29,r0; tamaño texto comprimido
+			or r9, r0, 0 ; bytes mapa bits(palabra)
+			or r10, r0 ,7; bit mapa de bits
+cpaso5a:	cmp r7, r8,r3
+			bb1 eq, r7, cpaso6
+			; guardamos variables
+			PUSH(r27)
+			PUSH(r23)
+			PUSH(r3)
+			PUSH(r9)
+			PUSH(r24)
+			PUSH(r4)
+			PUSH(r10)
+			;carga de variables para Busca max
+			PUSH(r19);jj
+			PUSH(r8);max
+			PUSH(r20);ref
+			bsr BuscaMax
+			;recuperamos variables tras BuscaMax
+			POP(r20)
+			POP(r8)
+			POP(r7)
+			POP(r10)
+			POP(r4)
+			POP(r24)
+			POP(r9)
+			POP(r3)
+			POP(r23)
+			POP(r27)
+cpaso5b:		
+			cmp r7, r29,4 ; si no es menor que cuatro salta a 5c
+			bb1 ge, r7 , cpaso5c
+			ld.bu r14, r20, r8; r14<- texto[r8]
+			subu r25, r31, 1; reserva espacio para el caracter en la pila reserva
+			st.b r14, r25, r23
+			subu r23, r23,1; retrasmos el puntero de pila cada vez que se almacena un byte y
+			addu r8, r8, 1 ; avanzamos el contador del texto
+			
+			CLEAR(r7,r10,r4)
+			br checkmbits
+
+
+cpaso5c:		;guarda 2 veces P
+			ld r19,r19,0 ; cargamos el valor de r19
+			subu r25, r31 ,1; avanzamos el puntero auxiliar en pila
+			st.b r19, r25, r23; almacenamos P1(es lo mismo que jj) en pila
+			LEA(r14, 0x210)
+			extu r19, r19 ,r14; estraemos el bit
+			subu r23, r23,1 ; avanzamos el contador de pila
+			
+			st.b r19, r25, r23; guardamos P2
+			subu r23, r23, 1; avanzamos el contador de pila
+
+			st.b r5 ,r25 ,r23; guardamos L r5 del buscamax
+			subu r23, r23, 1 ; 
+
+			addu r8, r8, r5 ; avanza el texto
+			subu r7, r5, 3	; avanza puntero 3 unidades
+			subu r27, r27 , r7; restas lo que has avanzado al tamaño de texto comprimido
+
+			SET(r7,r10,r4)
+			br checkmbits
+;Parte 6
+cpaso6: 	
+			cmp r7, r10, 7		;si no tenemos todos los bits del mapa de bits sin usar,
+			bb1 eq, r7, cpaso7	;saltamos al siguiente byte en el mapa sumando otro byte a el mapa
+			subu r7, r0, r9		
+			st.b r4, r24, r7
+			addu r9, r9, 1
+;Parte 7
+cpaso7:
+			ld r21,r31, 12 ; r21<-longitud del texto
+			st.h r3, r21,0	
+;Parte 8
+cpaso8: 	
+			addu r7 , r0,1
+			st.b r7, r21, 2
+;Parte 9
+cpaso9:	
+
+			addu r7, r9 ,5
+			st.b r7, r21, 3
+			LEA(r14, 0x210)
+			extu r7, r7, r14
+			st.b r7, r21, 4
+;Parte 10
+cpaso10:	
+			addu r21, r21, 5 	; añadimos la cabezera al comprimido
+			subu r14, r24, r9
+	
+cbuc10:
+			cmp r7, r24, r14
+			bb1 eq, r7 , compr
+			ld.bu r9, r24, 0	;r9 <- Primer bit del mapa de bit
+			st.b r9, r21 ,0		;guardamos el primer bit en el comprimido
+			subu r24 ,r24, 1	; avanzamos el mapa de bits y el puntero del comprimido
+			addu r21, r21 ,1	
+			br cbuc10
+		
+compr:	
+			or r11, r0, 0	
+			subu r14, r0 ,r27
+			subu r25, r31, 1	;avanzamos el puntero de pila
+			
+buccompr:
+			ld.bu r9, r25,r11	;cargamos el siguiente caracter de pila en comprimido y avanzamos r11(puntero)
+			cmp r7, r11, r14	; y el texto comprimido
+			bb1 eq ,r7, cpaso11
+			ld.bu r9, r25 , r11
+			st.b r9, r21, 0
+			subu r11, r11, 1
+			addu r21, r21, 1
+			br buccompr
+			
+;Parte 11
+cpaso11: 	ld r20 , r31, 12	
+			subu r7, r21, r20	
+			or r29, r0, r7
+			br finComp	
+			
+;funciones auxiliares
+checkmbits:	
+			cmp r7, r10, 0		;reinicio del mapa de bits si estamos en el 
+			bb1 ge, r7, cpaso5a	;bit 0 para nuevo salto de byte
+			or r10, r0, 7
+			subu r7, r0 ,r9
+			st.b r4, r24, r7
+			or r4,r0,0
+			addu r9, r9, 1
+			br cpaso5a
+			
+			
+ccambio: 	addu r8,r8,4
+			br ccambio2
+			
+finComp:	or r30, r31,0;
+			POP(r31)
+			POP(r1)
+			jmp(r1)
+
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+;PROGRAMA 6
+
+Descomprime:PUSH(r1)
+			PUSH(r31)
+			or r31,r30,r30
+			ld r20 , r31, 8;	r20 <- com
+			ld r21 , r31,12;	r21 <- desc
+			ld.bu r22, r20 ,4; 	r22 <- longitud mapa bits
+			LEA(r13, 0x210)		
+			mak r22 ,r22 , r13
+			ld.bu r23,r20,3
+			or r22, r22,r23
+			addu r24 ,r20 ,r22
+DPaso1:		
+			ld.bu r25, r20, 0	; tamano total
+            addu r26, r0, 7		; para recorrer los bits de cada byte del  mapa de bits
+            addu r27, r0, r0	; para recorrer el texto descomprimido
+            addu r28, r0, 0		; para recorrer el texto comprimido
+            addu r19, r0, 5		; para recorrer los bytes del mapa de bits
+			addu r16 , r0 , r0	; contadr para avanzar en los bytes comprimidos
+
+DPaso2:		
+			cmp r7,r28, 8		; bulce de copia de 8 caracteres iniciales en el texto decomprimido
+			bb1 eq, r7 , DPaso3
+			ld.bu r23,r24,r28
+			st.b r23 ,r21 ,r27
+			addu r28 ,r28, 1
+			addu r27,r27 ,1
+			br DPaso2
+			
+			
+DPaso3:		
+			cmp r7, r25, r27
+			bb1 eq, r7, DPaso4
+			
+			ld.bu r18 ,r20 ,r19	; r18 <- byte del mapa de bits
+			or r23, r26, 0x20
+			extu r18,r18,r23	; extraemos el bit del mapa
+			subu r26, r26 ,1
+		
+			
+			cmp r7,r18,0
+			bb1 eq, r7, DPaso3_a
+			
+			ld.bu r17,r24,r28 	; carga la direccion de referncia
+			addu r28,r28,1 		; avanzamos el texto comprimido
+			ld.bu r23, r24 ,r28
+			LEA(r13, 0x210)
+            extu r23, r23, r13
+			or r17 ,r17 , r23	; tenemos la posicion actual del texto a copiar
+			addu r16, r0, 0;
+			addu r28 ,r28 ,1	; avanzamos el puntero de texto comprimido
+			ld.bu r15, r24 , r28; cargamos la longitud de lo que vamos a copiar
+			
+BucD:		
+			
+			cmp r7, r16, r15		;empieza a caragar los caracteres en la 
+			bb1 eq, r7 , finBucD	;posicion de memoria asignada a la carga
+			addu r23, r17, r16		
+			ld.bu r23, r21,r23		
+			st.b r23, r21 , r27 	
+			addu r16, r16 ,1 		
+			addu r27, r27 ,1 
+			
+			br BucD
+finBucD:	
+			addu r28, r28,1
+			cmp r7, r26 ,0
+			bb1 lt, r7,CambByte
+			br DPaso3
+						
+DPaso3_a:	
+			ld.bu r23,r24,r28	; cargamos el caracter del texto no comprimido
+			st.b  r23, r21, r27	; almacenamos el caracter en texto descomprimdo
+			addu r28,r28,1 		; aumentamos contadores de los textos comprimidos y del no comprimido
+			addu r27,r27 , 1
+			cmp r7, r26 ,0 
+			bb1 lt , r26 ,CambByte; si el contador del mapa de bits es menor que 0 se restea
+			br DPaso3
+	
+CambByte:	
+			or r26 ,r0, 7 		; resetear r26 a 7
+			addu r19,r19,1		; avanzamos un byte ene elmapa de bits
+			br DPaso3
+DPaso4:		
+			addu r14, r0, 0;
+			st.b r14, r21, r27;
+			or r29, r25, 0;
+			or r30, r31,0;
+			POP(r31)
+			POP(r1)
+			jmp(r1)
+
+;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+;PROGRAMA 7
+
+Verifica:   PUSH(r1)
+            PUSH(r31)
+            or r31, r30, r30   
+Vpaso1:		
+			ld r20 , r31, 8
+			PUSH(r20)
+			bsr LongCad
+			
+			;carga de variables iniciales
+			ld r20 , r31 ,8 
+			ld r12, r31, 12	
+			st.b r29,r12,0
+			or r4, r29,0
+			
+	
+			divu r2,r29,4
+			mulu r2,r2,4 
+			cmp r7, r2,r29
+			bb1 lt ,r7, vcambio
+			
+vcambio2:	subu r30, r30,r2		; reservamos espacio para descomprime
+			or r5,r30, 0			; puntero pila descomprime
+
+			addu r14, r2,5 			; añadimos cabecera
+			
+			addu r12, r29,7			; formula (LO+7) y ajustarlo por exceso
+			divu r3 , r12,8
+			mulu r3 , r3 ,8
+			cmp r7, r3, r12
+			bb1 lt,r7 , vcambio3
+vcambio4:			
+			divu r8, r3 ,8 	; 
+			subu r8,r8, 1			;r8 <-(LO+7)/8 - 1
+			addu r19,r8,r14	;
+			addu r3,r19,0
+			divu r19, r19,4
+			mulu r19, r19,4			;r19 <- ajustado por exceso 4((lo+7)/8-1)
+			cmp r7, r19,r3
+			bb1 lt ,r7, vcambio5
+			
+vcambio6:	subu r30, r30,r19
+			or r21, r30 ,0
+			
+vcomprime:	
+		;reservar variables
+			PUSH(r19)
+			PUSH(r4)
+		;cargar variables para comprime
+			PUSH(r5)		;pila descomp
+			PUSH(r21)		;pila comp
+			PUSH(r20)		; Texto
+			bsr Comprime
+			POP(r20)
+			POP(r21)
+			POP(r5)
+			POP(r4)
+			POP(r19)
+			
+vdescomprime:
+			
+		;reservar variables
+			PUSH(r19)
+			PUSH(r4)
+		;cargar variables para comprime	
+			PUSH(r20)		;pila comp
+			PUSH(r5)		;Pila descomp
+			PUSH(r21)		;PilaComp
+			bsr Descomprime
+		;recuperamos variables
+			POP(r21)
+			POP(r5)
+			POP(r20)
+			POP(r4)
+			POP(r19)
+		;cargamoes el tamaño devuelto por descomprime en Long2
+			ld r12, r31, 16
+			st r29,r12,0
+			cmp r7, r4, r29
+			bb1 ne, r7,vfintamano
+		;Llamamos a coincidencad con las dos cadenas desde los punteros
+			PUSH(r4)
+			PUSH(r5)
+			PUSH(r20)
+			bsr CoincidenCad
+			POP(r20)
+			POP(r5)
+			POP(r4)
+		;si no son coincidentes pasan	
+			cmp r7, r29, r4;
+			bb1 ne, r7, vfinnocoinciden
+			or r29,r0,0
+			
+			br vfin
+				
+		
+;fnciones auxiliares			
+vcambio:	addu r2,r2,4
+			br vcambio2
+			
+vcambio3:	addu r3,r3,8
+			br vcambio4
+			
+vcambio5:	addu r19,r19,4
+			br vcambio6
+;fin donde no coincide el tamaño
+vfintamano:
+			or r29,r0,0
+			subu r29, r29, 1
+			br vfin
+;fin donde no coincide la cadena
+vfinnocoinciden:
+			or r29,r0,0
+			subu r29, r29, 2
+			br vfin
+			
+vfin:		or r30, r31, 0
+			POP(r31)
+			POP(r1)
+			jmp(r1)
