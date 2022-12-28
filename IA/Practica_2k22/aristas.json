@@ -1,0 +1,482 @@
+[
+   {
+       "Origen": "Piraeus",
+       "Destino": "Faliro",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 2
+       }
+   },
+   {
+       "Origen": "Faliro",
+       "Destino": "Moschato",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.7
+       }
+   },
+   {
+       "Origen": "Moschato",
+       "Destino": "Kallithea",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.6
+       }
+   },
+   {
+       "Origen": "Kallithea",
+       "Destino": "Tavros",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Tavros",
+       "Destino": "Petralona",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Petralona",
+       "Destino": "Thissio",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.3
+       }
+   },
+   {
+       "Origen": "Thissio",
+       "Destino": "Monastiraki-Verde",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.4
+       }
+   },
+   {
+       "Origen": "Monastiraki-Verde",
+       "Destino": "Omonia-Verde",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Omonia-Verde",
+       "Destino": "Victoria",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.00
+       }
+   },
+   {
+       "Origen": "Victoria",
+       "Destino": "Attiki-Verde",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.0
+       }
+   },
+   {
+       "Origen": "Attiki-Verde",
+       "Destino": "Aghios Nikolaos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Aghios Nikolaos",
+       "Destino": "Kato Patissia",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.5
+       }
+   },
+   {
+       "Origen": "Kato Patissia",
+       "Destino": "Aghios Eleftherios",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.0
+       }
+   },
+   {
+       "Origen": "Aghios Eleftherios",
+       "Destino": "Ano Patissia",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.5
+       }
+   },
+   {
+       "Origen": "Ano Patissia",
+       "Destino": "Perissos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.2
+       }
+   },
+   {
+       "Origen": "Perissos",
+       "Destino": "Pefkakia",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.7
+       }
+   },
+   {
+       "Origen": "Pefkakia",
+       "Destino": "Nea Ionia",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.7
+       }
+   },
+   {
+       "Origen": "Nea Ionia",
+       "Destino": "Iraklio",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "Iraklio",
+       "Destino": "Irini",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.5
+       }
+   },
+   {
+       "Origen": "Irini",
+       "Destino": "Neratziotissa",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Neratziotissa",
+       "Destino": "Maroussi",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.6
+       }
+   },
+   {
+       "Origen": "Maroussi",
+       "Destino": "KAT",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "KAT",
+       "Destino": "Kifissia",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.5
+       }
+   },
+   {
+       "Origen": "Aghios Dimitrios · Alexandros Panagoulis",
+       "Destino": "Dafni",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.0
+       }
+   },
+   {
+       "Origen": "Dafni",
+       "Destino": "Aghios Ioannis",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Aghios Ioannis",
+       "Destino": "Neos Kosmos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Neos Kosmos",
+       "Destino": "Sygrou-Fix",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.8
+       }
+   },
+   {
+       "Origen": "Sygrou-Fix",
+       "Destino": "Akropoli",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Akropoli",
+       "Destino": "Syntagma-Rojo",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Syntagma-Rojo",
+       "Destino": "Panepistimio",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.7
+       }
+   },
+   {
+       "Origen": "Panepistimio",
+       "Destino": "Omonia-Rojo",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Omonia-Rojo",
+       "Destino": "Metaxourghio",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.7
+       }
+   },
+   {
+       "Origen": "Metaxourghio",
+       "Destino": "Larissa Station",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Larissa Station",
+       "Destino": "Attiki-Rojo",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.8
+       }
+   },
+   {
+       "Origen": "Attiki-Rojo",
+       "Destino": "Sepolia",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Sepolia",
+       "Destino": "Aghios Antonios",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.3
+       }
+   },
+   {
+       "Origen": "Egaleo",
+       "Destino": "Eleonas",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.2
+       }
+   },
+   {
+       "Origen": "Eleonas",
+       "Destino": "Kerameikos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.8
+       }
+   },
+   {
+       "Origen": "Kerameikos",
+       "Destino": "Monastiraki-Azul",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.3
+       }
+   },
+   {
+       "Origen": "Monastiraki-Azul",
+       "Destino": "Syntagma-Azul",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Syntagma-Azul",
+       "Destino": "Evangelismos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.0
+       }
+   },
+   {
+       "Origen": "Evangelismos",
+       "Destino": "Megaro Moussikis",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.6
+       }
+   },
+   {
+       "Origen": "Megaro Moussikis",
+       "Destino": "Ambelokipi",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.0
+       }
+   },
+   {
+       "Origen": "Ambelokipi",
+       "Destino": "Panormou",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Panormou",
+       "Destino": "Katehaki",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "Katehaki",
+       "Destino": "Ethniki Amyna",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "Ethniki Amyna",
+       "Destino": "Holargos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Ethniki Amyna",
+       "Destino": "Holargos",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Holargos",
+       "Destino": "Nomismatokopio",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "Nomismatokopio",
+       "Destino": "Aghia Paraskevi",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "Aghia Paraskevi",
+       "Destino": "Halandri",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 0.9
+       }
+   },
+   {
+       "Origen": "Halandri",
+       "Destino": "Doukissis Plakentias",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 1.1
+       }
+   },
+   {
+       "Origen": "Doukissis Plakentias",
+       "Destino": "Pallini",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 3.7
+       }
+   },
+   {
+       "Origen": "Pallini",
+       "Destino": "Paiania-Kantza",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 2.5
+       }
+   },
+   {
+       "Origen": "Paiania-Kantza",
+       "Destino": "Koropi",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 8.3
+       }
+   },
+   {
+       "Origen": "Koropi",
+       "Destino": "Airport",
+       "Criterio": {
+           "Transbordo": 0,
+           "Distancia": 5.1
+       }
+   },
+   {
+       "Origen": "Monastiraki-Verde",
+       "Destino": "Monastiraki-Azul",
+       "Criterio": {
+           "Transbordo": 1,
+           "Distancia": 0
+       }
+   },
+   {
+       "Origen": "Omonia-Verde",
+       "Destino": "Omonia-Rojo",
+       "Criterio": {
+           "Transbordo": 1,
+           "Distancia": 0
+       }
+   },
+   {
+       "Origen": "Attiki-Verde",
+       "Destino": "Attiki-Rojo",
+       "Criterio": {
+           "Transbordo": 1,
+           "Distancia": 0
+       }
+   },
+   {
+       "Origen": "Syntagma-Rojo",
+       "Destino": "Syntagma-Azul",
+       "Criterio": {
+           "Transbordo": 1,
+           "Distancia": 0
+       }
+   }
+]
