@@ -1,0 +1,56 @@
+//** No se debe cambiar el ejemplo hasta que lo indique el profesor **/
+let  s string;
+let a int ;
+let bb boolean ;
+
+
+function  RR int (int n, boolean b)
+{
+	input kk;
+	let log boolean;
+	log= n == 8	;
+	if (!log)	return n;
+	return RR (n + 1, bb);	
+}
+
+let ss string ;
+kk=33;
+
+function prin (string s, int RR)
+{
+	let ss boolean;
+	
+	print 
+	('++++Helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
+	RR= (a +3);
+		print(s)
+	;if (bb) return;
+	print (RR);		print ( a + (987 + 8) +3);
+}
+
+RR = 1;
+
+function  cadena string(string kk)
+{
+	while ((a == 91))
+	{prin ('{9}', RR(a, bb));
+
+	let xx string;
+	xx= kk;
+	if (bb)
+		return xx;
+	}
+
+		return '';
+	xx= ss;
+}
+
+
+s = '';
+a= RR (5, bb);
+prin (s,9);
+
+
+
+
+bb= 9 == a + 3;

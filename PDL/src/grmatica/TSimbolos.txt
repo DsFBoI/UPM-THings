@@ -1,0 +1,84 @@
+***************************************************************************************************************************
+
+######### TABLA: RR #########
+#Variable: n
+	tipo: int
+	direccion: 0
+#Variable: b
+	tipo: boolean
+	direccion: 1
+#Variable: log
+	tipo: boolean
+	direccion: 2
+
+***************************************************************************************************************************
+
+***************************************************************************************************************************
+
+######### TABLA: prin #########
+#Variable: s
+	tipo: string
+	direccion: 0
+#Variable: RR
+	tipo: int
+	direccion: 32
+#Variable: ss
+	tipo: boolean
+	direccion: 33
+
+***************************************************************************************************************************
+
+***************************************************************************************************************************
+
+######### TABLA: cadena #########
+#Variable: kk
+	tipo: string
+	direccion: 0
+#Variable: xx
+	tipo: string
+	direccion: 32
+
+***************************************************************************************************************************
+
+***************************************************************************************************************************
+
+######### TABLA_GLOBAL: #########
+#Variable: s
+	tipo: string
+	direccion: 0
+#Variable: a
+	tipo: int
+	direccion: 32
+#Variable: bb
+	tipo: boolean
+	direccion: 33
+#Función: RR
+	tipo: function
+	direccion: 
+	Nparam: 2
+	tipoParam: [int, boolean]
+	tipoDev: int
+	etiq: func1
+#Variable: ss
+	tipo: string
+	direccion: 34
+#Variable: kk
+	tipo: int
+	direccion: 66
+#Función: prin
+	tipo: function
+	direccion: 
+	Nparam: 2
+	tipoParam: [string, int]
+	tipoDev: void
+	etiq: func2
+#Función: cadena
+	tipo: function
+	direccion: 
+	Nparam: 1
+	tipoParam: [string]
+	tipoDev: string
+	etiq: func3
+
+***************************************************************************************************************************
+
